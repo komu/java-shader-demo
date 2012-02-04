@@ -3,20 +3,19 @@ package threed;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
-import threed.common.IndexBuffer;
+import threed.common.Mesh;
 import threed.common.ShaderLoader;
 import threed.common.ShaderProgram;
-import threed.common.VertexBuffer;
 
 import static org.lwjgl.opengl.GL11.*;
-import static org.lwjgl.opengl.GL15.*;
-import static org.lwjgl.opengl.GL20.*;
+import static org.lwjgl.opengl.GL15.GL_ARRAY_BUFFER;
+import static org.lwjgl.opengl.GL15.glBindBuffer;
+import static org.lwjgl.opengl.GL20.glUseProgram;
 import static org.lwjgl.util.glu.GLU.gluOrtho2D;
 
 public class CloverDemo {
 
-    VertexBuffer vertexBuffer;
-    IndexBuffer indexBuffer;
+    Mesh mesh;
     ShaderProgram shader;
     DisplayMode mode;
     float ratio = 1;
@@ -28,8 +27,7 @@ public class CloverDemo {
     }
 
     private void cleanup() {
-        vertexBuffer.delete();
-        indexBuffer.delete();
+        mesh.delete();
         Display.destroy();
     }
     
@@ -60,16 +58,7 @@ public class CloverDemo {
         int w = mode.getWidth();
         int h = mode.getHeight();
 
-
-        float[] vertices = {
-            0, 0, 0, 0,
-            w, 0, 1, 0,
-            w, h, 1, 1,
-            0, h, 0, 1
-        };
-
-        vertexBuffer = new VertexBuffer(vertices);
-        indexBuffer = new IndexBuffer(new int[] { 0, 1, 2, 3 });
+        mesh = Mesh.builder(4).add(0, 0, 0, 0, 0).add(w, 0, 0, 1, 0).add(w, h, 0, 1, 1).add(0, h, 0, 0, 1).build();
 
         shader = ShaderLoader.createShaderProgram("apple");
     }
@@ -119,23 +108,20 @@ public class CloverDemo {
         glEnableClientState(GL_VERTEX_ARRAY);
 
         // bind buffers
-        vertexBuffer.bind();
-        indexBuffer.bind();
+        mesh.bind();
 
         // init shader
         shader.bind();
         shader.setUniform1f("time", System.currentTimeMillis() % 1000000 / 1000f);
         shader.setUniform3f("unResolution", mode.getWidth(), mode.getHeight(), 1);
 
-        int vertexTextureCoordinate = glGetAttribLocation(shader.id, "vertexTextureCoordinate");
-        glVertexAttribPointer(vertexTextureCoordinate, 2, GL_FLOAT, true, 4*4, 2*4);
-        glEnableVertexAttribArray(vertexTextureCoordinate);
+        glVertexPointer(Mesh.VERTEX_COUNT, GL_FLOAT, Mesh.SIZE_IN_BYTES, Mesh.VERTEX_OFFSET);
+        shader.setVertexAttribPointer("vertexTextureCoordinate", Mesh.TEX_COORD_COUNT, GL_FLOAT, true, Mesh.SIZE_IN_BYTES, Mesh.TEX_COORD_OFFSET);
 
         // draw the stuff
-        glDrawElements(GL_QUADS, 4, GL_UNSIGNED_INT, 0);
+        mesh.draw();
 
         glBindBuffer(GL_ARRAY_BUFFER, 0);
-        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 
         glDisableClientState(GL_VERTEX_ARRAY);
 

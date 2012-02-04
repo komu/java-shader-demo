@@ -25,4 +25,12 @@ public final class ShaderProgram {
         if (location != -1)
             glUniform3f(location, x, y, z);
     }
+
+    public void setVertexAttribPointer(String name, int size, int type, boolean normalized, int stride, int offset) {
+        int index = glGetAttribLocation(id, name);
+        if (index != -1) {
+            glVertexAttribPointer(index, size, type, normalized, stride, offset);
+            glEnableVertexAttribArray(index);
+        }
+    }
 }
