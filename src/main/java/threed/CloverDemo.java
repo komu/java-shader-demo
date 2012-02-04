@@ -19,6 +19,7 @@ public class CloverDemo {
     IndexBuffer indexBuffer;
     ShaderProgram shader;
     DisplayMode mode;
+    float ratio = 1;
     
     private void execute() throws Exception {
         initialize();
@@ -46,9 +47,7 @@ public class CloverDemo {
         glLoadIdentity();
         gluOrtho2D(0, mode.getWidth(), 0, mode.getHeight());
 
-        glMatrixMode(GL_MODELVIEW);
-        glLoadIdentity();
-        glViewport(0, 0, mode.getWidth(), mode.getHeight());
+        updateModelView();
 
         glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
         Display.setVSyncEnabled(true);
@@ -75,11 +74,24 @@ public class CloverDemo {
         shader = ShaderLoader.createShaderProgram("apple");
     }
 
+    private void updateModelView() {
+        glMatrixMode(GL_MODELVIEW);
+        glLoadIdentity();
+
+        float w = mode.getWidth()*ratio;
+        float h = mode.getHeight()*ratio;
+        float x = (mode.getWidth()/2) - w/2;
+        float y = (mode.getHeight()/2) - h/2;
+
+        glViewport((int) x, (int) y, (int) w, (int) h);
+    }
+
     private void mainLoop() {
         long frames = 0;
         long start = System.currentTimeMillis();
 
         while (!Keyboard.isKeyDown(Keyboard.KEY_ESCAPE) && !Display.isCloseRequested()) {
+            processInput();
             frames++;
             render();
             Display.update();
@@ -89,6 +101,16 @@ public class CloverDemo {
 
         float seconds = total/1000f;
         System.out.println("fps: " + (int) (frames / seconds));
+    }
+
+    private void processInput() {
+        if (Keyboard.isKeyDown(Keyboard.KEY_UP)) {
+            ratio -= 0.05;
+            updateModelView();
+        } else if (Keyboard.isKeyDown(Keyboard.KEY_DOWN)) {
+            ratio += 0.05;
+            updateModelView();
+        }
     }
 
     private void render() {
