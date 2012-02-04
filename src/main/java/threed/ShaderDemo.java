@@ -13,7 +13,7 @@ import static org.lwjgl.opengl.GL15.glBindBuffer;
 import static org.lwjgl.opengl.GL20.glUseProgram;
 import static org.lwjgl.util.glu.GLU.gluOrtho2D;
 
-public class CloverDemo {
+public class ShaderDemo {
 
     Mesh mesh;
     ShaderProgram shader;
@@ -130,7 +130,7 @@ public class CloverDemo {
 
     public static void main(String[] args) {
         try {
-            new CloverDemo().execute();
+            new ShaderDemo().execute();
         } catch (Exception e) {
             e.printStackTrace();
         }
