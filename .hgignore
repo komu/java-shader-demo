@@ -1,0 +1,5 @@
+syntax: glob
+
+out
+.idea/uiDesigner.xml
+.idea/workspace.xml
