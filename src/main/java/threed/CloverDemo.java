@@ -10,7 +10,7 @@ import threed.common.VertexBuffer;
 
 import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.opengl.GL15.*;
-import static org.lwjgl.opengl.GL20.glUseProgram;
+import static org.lwjgl.opengl.GL20.*;
 import static org.lwjgl.util.glu.GLU.gluOrtho2D;
 
 public class CloverDemo {
@@ -58,7 +58,18 @@ public class CloverDemo {
         glDepthFunc(GL_LEQUAL);
         glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);
         
-        vertexBuffer = new VertexBuffer(new float[] { -1, -1, 1, -1, 1, 1, -1, 1 });
+        int w = mode.getWidth();
+        int h = mode.getHeight();
+
+
+        float[] vertices = {
+            0, 0, 0, 0,
+            w, 0, 1, 0,
+            w, h, 1, 1,
+            0, h, 0, 1
+        };
+
+        vertexBuffer = new VertexBuffer(vertices);
         indexBuffer = new IndexBuffer(new int[] { 0, 1, 2, 3 });
 
         shader = ShaderLoader.createShaderProgram("apple");
@@ -83,24 +94,29 @@ public class CloverDemo {
     private void render() {
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
+        glEnableClientState(GL_VERTEX_ARRAY);
+
+        // bind buffers
+        vertexBuffer.bind();
+        indexBuffer.bind();
+
+        // init shader
         shader.bind();
         shader.setUniform1f("time", System.currentTimeMillis() % 1000000 / 1000f);
         shader.setUniform3f("unResolution", mode.getWidth(), mode.getHeight(), 1);
-		glPushMatrix();
-        glScalef(2000f, 2000f, 1f);
 
-        glEnableClientState(GL_VERTEX_ARRAY);
+        int vertexTextureCoordinate = glGetAttribLocation(shader.id, "vertexTextureCoordinate");
+        glVertexAttribPointer(vertexTextureCoordinate, 2, GL_FLOAT, true, 4*4, 2*4);
+        glEnableVertexAttribArray(vertexTextureCoordinate);
 
-        vertexBuffer.bind();
-
-        indexBuffer.bind();
+        // draw the stuff
         glDrawElements(GL_QUADS, 4, GL_UNSIGNED_INT, 0);
 
         glBindBuffer(GL_ARRAY_BUFFER, 0);
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 
         glDisableClientState(GL_VERTEX_ARRAY);
-        glPopMatrix();
+
         glUseProgram(0);
     }
 

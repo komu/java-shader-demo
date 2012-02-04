@@ -7,8 +7,6 @@ import java.nio.FloatBuffer;
 import static org.lwjgl.opengl.GL11.GL_FLOAT;
 import static org.lwjgl.opengl.GL11.glVertexPointer;
 import static org.lwjgl.opengl.GL15.*;
-import static org.lwjgl.opengl.GL15.GL_ARRAY_BUFFER;
-import static org.lwjgl.opengl.GL15.glBindBuffer;
 
 public final class VertexBuffer {
     
@@ -25,12 +23,11 @@ public final class VertexBuffer {
         glBindBuffer(GL_ARRAY_BUFFER, id);
         glBufferData(GL_ARRAY_BUFFER, buffer, GL_STATIC_DRAW);
         glBindBuffer(GL_ARRAY_BUFFER, 0);
-        
     }
 
     public void bind() {
         glBindBuffer(GL_ARRAY_BUFFER, id);
-        glVertexPointer(2, GL_FLOAT, 0, 0);
+        glVertexPointer(2, GL_FLOAT, 4*4, 0);
     }
 
     public void delete() {

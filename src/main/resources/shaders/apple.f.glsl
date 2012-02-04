@@ -2,7 +2,7 @@
 #version 120
 
 uniform float time;
-uniform vec3 unResolution;
+varying vec2 textureCoordinate;
 
 float hash(float n)
 {
@@ -154,7 +154,8 @@ vec2 intersect(in vec3 ro, in vec3 rd)
 
 void main()
 {
-    vec2 q = gl_FragCoord.xy / unResolution.xy;
+    vec2 q = textureCoordinate;
+
     vec2 p = (-1.0 + 2.0*q)*vec2(1.77, 1.0);
     vec3 ro = 1.8*vec3(cos(0.2*time), 1.0, sin(0.2*time));
     vec3 ww = normalize(vec3(0.0, 0.0, 0.0) - ro);
