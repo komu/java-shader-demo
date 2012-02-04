@@ -1,8 +1,6 @@
 package threed.common;
 
-import static org.lwjgl.opengl.GL20.glGetUniformLocation;
-import static org.lwjgl.opengl.GL20.glUniform1f;
-import static org.lwjgl.opengl.GL20.glUseProgram;
+import static org.lwjgl.opengl.GL20.*;
 
 public final class ShaderProgram {
     
@@ -16,15 +14,15 @@ public final class ShaderProgram {
         glUseProgram(id);
     }
 
-    public void setUniform(String name, float value) {
-        glUniform1f(getUniformLocation(name), value);
-    }
-    
-    private int getUniformLocation(String name) {
+    public void setUniform1f(String name, float value) {
         int location = glGetUniformLocation(id, name);
         if (location != -1)
-            return location;
-        else
-            throw new IllegalArgumentException("no such uniform parameter: '" + name + "'");
+            glUniform1f(location, value);
+    }
+
+    public void setUniform3f(String name, float x, float y, float z) {
+        int location = glGetUniformLocation(id, name);
+        if (location != -1)
+            glUniform3f(location, x, y, z);
     }
 }

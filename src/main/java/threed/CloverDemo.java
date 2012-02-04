@@ -1,7 +1,8 @@
 package threed;
 
 import org.lwjgl.input.Keyboard;
-import org.lwjgl.opengl.*;
+import org.lwjgl.opengl.Display;
+import org.lwjgl.opengl.DisplayMode;
 import threed.common.IndexBuffer;
 import threed.common.ShaderLoader;
 import threed.common.ShaderProgram;
@@ -9,7 +10,6 @@ import threed.common.VertexBuffer;
 
 import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.opengl.GL15.*;
-import static org.lwjgl.opengl.GL20.glGetUniformLocation;
 import static org.lwjgl.opengl.GL20.glUseProgram;
 import static org.lwjgl.util.glu.GLU.gluOrtho2D;
 
@@ -61,7 +61,7 @@ public class CloverDemo {
         vertexBuffer = new VertexBuffer(new float[] { -1, -1, 1, -1, 1, 1, -1, 1 });
         indexBuffer = new IndexBuffer(new int[] { 0, 1, 2, 3 });
 
-        shader = ShaderLoader.createShaderProgram("clover");
+        shader = ShaderLoader.createShaderProgram("apple");
     }
 
     private void mainLoop() {
@@ -77,14 +77,15 @@ public class CloverDemo {
         long total = System.currentTimeMillis() - start;
 
         float seconds = total/1000f;
-        System.out.println("fps: " + (int) (frames/seconds));
+        System.out.println("fps: " + (int) (frames / seconds));
     }
 
     private void render() {
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
         shader.bind();
-        shader.setUniform("time", System.currentTimeMillis() % 1000000 / 1000f);
+        shader.setUniform1f("time", System.currentTimeMillis() % 1000000 / 1000f);
+        shader.setUniform3f("unResolution", mode.getWidth(), mode.getHeight(), 1);
 		glPushMatrix();
         glScalef(2000f, 2000f, 1f);
 
