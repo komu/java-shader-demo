@@ -1,17 +1,16 @@
 package threed
 
-import org.lwjgl.input.Keyboard
-import org.lwjgl.opengl.Display
 import org.lwjgl.opengl.DisplayMode
-import threed.common.Mesh
-import threed.common.ShaderLoader
-import threed.common.ShaderProgram
-
 import org.lwjgl.opengl.GL11.*
-import org.lwjgl.opengl.GL15.GL_ARRAY_BUFFER
 import org.lwjgl.opengl.GL15.glBindBuffer
+import org.lwjgl.opengl.GL15.GL_ARRAY_BUFFER
 import org.lwjgl.opengl.GL20.glUseProgram
 import org.lwjgl.util.glu.GLU.gluOrtho2D
+import threed.common.AttributePointer
+import threed.common.Mesh
+import threed.common.ShaderLoader
+import org.lwjgl.opengl.Display
+import org.lwjgl.input.Keyboard
 
 class ShaderDemo(val mode: DisplayMode) {
 
@@ -95,7 +94,7 @@ class ShaderDemo(val mode: DisplayMode) {
         shader["unResolution"] = #(mode.getWidth().toFloat(), mode.getHeight().toFloat(), 1.toFloat())
 
         glVertexPointer(Mesh.VERTEX_COUNT, GL_FLOAT, Mesh.SIZE_IN_BYTES, Mesh.VERTEX_OFFSET)
-        shader.setVertexAttribPointer("vertexTextureCoordinate", Mesh.TEX_COORD_COUNT, GL_FLOAT, true, Mesh.SIZE_IN_BYTES, Mesh.TEX_COORD_OFFSET)
+        shader["vertexTextureCoordinate"] = AttributePointer(Mesh.TEX_COORD_COUNT, GL_FLOAT, true, Mesh.SIZE_IN_BYTES, Mesh.TEX_COORD_OFFSET)
 
         // draw the stuff
         mesh.draw()

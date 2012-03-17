@@ -20,17 +20,13 @@ class ShaderProgram(val id: Int) {
             glUniform3f(location, value._1, value._2, value._3)
     }
 
-    fun setUniform3f(name: String, x: Float, y: Float, z: Float) {
-        val location = glGetUniformLocation(id, name)
-        if (location != -1)
-            glUniform3f(location, x, y, z)
-    }
-
-    fun setVertexAttribPointer(name: String, size: Int, typ: Int, normalized: Boolean, stride: Int, offset: Long) {
+    fun set(name: String, p: AttributePointer) {
         val index = glGetAttribLocation(id, name)
         if (index != -1) {
-            glVertexAttribPointer(index, size, typ, normalized, stride, offset)
+            glVertexAttribPointer(index, p.size, p.typ, p.normalized, p.stride, p.offset)
             glEnableVertexAttribArray(index)
         }
     }
 }
+
+class AttributePointer(val size: Int, val typ: Int, val normalized: Boolean, val stride: Int, val offset: Long)
