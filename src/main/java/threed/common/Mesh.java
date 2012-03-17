@@ -61,7 +61,7 @@ public final class Mesh {
         private final float[] data;
 
         private Builder(int capacity) {
-            data = new float[capacity* SIZE_IN_BYTES];
+            data = new float[capacity * ENTRIES];
         }
     
         public Builder add(float x, float y, float z, float u, float t) {
