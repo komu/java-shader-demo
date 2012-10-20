@@ -109,7 +109,7 @@ class ShaderDemo(val mode: DisplayMode) {
 
 fun main(args: Array<String>) {
     try {
-        val mode = Display.getDisplayMode()!!
+        val mode = Display.getDisplayMode()
         Display.setDisplayModeAndFullscreen(mode)
         Display.create()
         Keyboard.create()

@@ -1,0 +1,5 @@
+<root>
+    <item name='org.lwjgl.BufferUtils java.nio.FloatBuffer createFloatBuffer(int)'>
+        <annotation name='org.jetbrains.annotations.NotNull'/>
+    </item>
+</root>
