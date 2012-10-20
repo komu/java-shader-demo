@@ -14,10 +14,10 @@ class ShaderProgram(val id: Int) {
             glUniform1f(location, value)
     }
 
-    fun set(name: String, value: #(Float, Float, Float)) {
+    fun set(name: String, value: Triple<Float, Float, Float>) {
         val location = glGetUniformLocation(id, name)
         if (location != -1)
-            glUniform3f(location, value._1, value._2, value._3)
+            glUniform3f(location, value.first, value.second, value.third)
     }
 
     fun set(name: String, p: AttributePointer) {

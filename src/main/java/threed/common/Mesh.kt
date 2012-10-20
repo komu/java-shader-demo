@@ -32,8 +32,8 @@ class Mesh(data: FloatArray) {
                 .build()
 
         private fun createVertexBuffer(data: FloatArray): Int {
-            val buffer = BufferUtils.createFloatBuffer(data.size).sure()
-            for (val v in data)
+            val buffer = BufferUtils.createFloatBuffer(data.size)!!
+            for (v in data)
                 buffer.put(v)
             buffer.rewind()
 
@@ -46,7 +46,7 @@ class Mesh(data: FloatArray) {
             return id
         }
 
-        class Builder private (capacity: Int) {
+        class Builder internal(capacity: Int) {
 
             private var index = 0
             private val data = FloatArray(capacity * ENTRIES)

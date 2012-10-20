@@ -91,7 +91,7 @@ class ShaderDemo(val mode: DisplayMode) {
         shader.bind()
 
         shader["time"] = System.currentTimeMillis() % 1000000 / 1000.toFloat()
-        shader["unResolution"] = #(mode.getWidth().toFloat(), mode.getHeight().toFloat(), 1.toFloat())
+        shader["unResolution"] = Triple(mode.getWidth().toFloat(), mode.getHeight().toFloat(), 1.toFloat())
 
         glVertexPointer(Mesh.VERTEX_COUNT, GL_FLOAT, Mesh.SIZE_IN_BYTES, Mesh.VERTEX_OFFSET)
         shader["vertexTextureCoordinate"] = AttributePointer(Mesh.TEX_COORD_COUNT, GL_FLOAT, true, Mesh.SIZE_IN_BYTES, Mesh.TEX_COORD_OFFSET)
@@ -109,7 +109,7 @@ class ShaderDemo(val mode: DisplayMode) {
 
 fun main(args: Array<String>) {
     try {
-        val mode = Display.getDisplayMode().sure()
+        val mode = Display.getDisplayMode()!!
         Display.setDisplayModeAndFullscreen(mode)
         Display.create()
         Keyboard.create()

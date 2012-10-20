@@ -16,7 +16,7 @@ object ShaderLoader {
         glLinkProgram(program)
         glValidateProgram(program)
 
-        val log = glGetProgramInfoLog(program, 1024).sure()
+        val log = glGetProgramInfoLog(program, 1024)!!
         if (!log.isEmpty())
             throw RuntimeException("Invalid program: $log")
 
@@ -30,7 +30,7 @@ object ShaderLoader {
         glShaderSource(shader, source)
         glCompileShader(shader)
         
-        val log = glGetShaderInfoLog(shader, 1024).sure()
+        val log = glGetShaderInfoLog(shader, 1024)!!
         if (!log.isEmpty())
             throw RuntimeException("Invalid shader: $log")
 
