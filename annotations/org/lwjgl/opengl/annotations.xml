@@ -1,14 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <root>
-    <item name='org.lwjgl.opengl.GL20 java.lang.String glGetProgramInfoLog(int, int)'>
-        <annotation name='org.jetbrains.annotations.NotNull'/>
-    </item>
-    <item name='org.lwjgl.opengl.GL20 java.lang.String glGetShaderInfoLog(int, int)'>
-        <annotation name='org.jetbrains.annotations.NotNull'/>
-    </item>
-    <item name='org.lwjgl.opengl.Display org.lwjgl.opengl.DisplayMode getDisplayMode()'>
-        <annotation name='org.jetbrains.annotations.NotNull'/>
-    </item>
-    <item name='org.lwjgl.opengl.Display void setDisplayModeAndFullscreen(org.lwjgl.opengl.DisplayMode) 0'>
-        <annotation name='org.jetbrains.annotations.NotNull'/>
-    </item>
+  <item name="org.lwjgl.opengl.Display org.lwjgl.opengl.DisplayMode getDisplayMode()">
+    <annotation name="org.jetbrains.annotations.NotNull" />
+  </item>
+  <item name="org.lwjgl.opengl.Display void setDisplayModeAndFullscreen(org.lwjgl.opengl.DisplayMode) 0">
+    <annotation name="org.jetbrains.annotations.NotNull" />
+  </item>
+  <item name="org.lwjgl.opengl.GL20 java.lang.String glGetProgramInfoLog(int, int)">
+    <annotation name="org.jetbrains.annotations.NotNull" />
+  </item>
+  <item name="org.lwjgl.opengl.GL20 java.lang.String glGetShaderInfoLog(int, int)">
+    <annotation name="org.jetbrains.annotations.NotNull" />
+  </item>
 </root>
+
